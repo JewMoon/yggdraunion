@@ -1,0 +1,143 @@
+---
+const { url } = Astro;
+
+function anchorProps(path: string) {
+  let { pathname } = url;
+  if (pathname.endsWith('.html')) {
+    pathname = pathname.slice(0, -5);
+  }
+  if (pathname.endsWith('translations-item')) {
+    pathname = pathname.slice(0, -5);
+  }
+  return {
+    'href': path,
+    'aria-current': new URL(path, url).pathname === pathname,
+  };
+}
+---
+
+<nav>
+  <ul class="nav-groups">
+    <li>
+      <div class="nav-group">
+        <ul>
+          <li class="nav-link">
+            <a {...anchorProps('./')}>首页</a>
+          </li>
+        </ul>
+        <h2 class="nav-group-title">流程</h2>
+        <ul>
+          <li class="nav-link">
+            <a {...anchorProps('./chapter1')}>Chapter1 [BF01-04]</a>
+            <a {...anchorProps('./chapter2')}>Chapter2 [BF05-11]</a>
+            <a {...anchorProps('./chapter3')}>Chapter3 [BF12-18]</a>
+            <a {...anchorProps('./chapter4')}>Chapter4 [BF18-28]</a>
+            <a {...anchorProps('./chapter5')}>Chapter5 [BF29-32]</a>
+            <a {...anchorProps('./chapter6')}>Chapter6 [BF33-34]</a>
+            <a {...anchorProps('./chapter7')}>Chapter7 [BF35-41]</a>
+            <a {...anchorProps('./chapter8')}>Chapter8 [BF42-45]</a>
+            <a {...anchorProps('./chapter9')}>Chapter9 [BF46-49]</a>
+          </li>
+        </ul>
+        <h2 class="nav-group-title">资料</h2>
+        <ul>
+          <li class="nav-link">
+            <a {...anchorProps('growths')}>成长表格</a>
+            <a {...anchorProps('cards')}>战术卡片</a>
+            <a {...anchorProps('items')}>道具图鉴</a>
+          </li>
+        </ul>
+        <h2 class="nav-group-title">其他</h2>
+        <ul>
+          <li class="nav-link">
+            <a {...anchorProps('versions')}>版本变更</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    var target = document.querySelector('[aria-current]');
+    if (target && target.offsetTop > window.innerHeight - 100) {
+      document.querySelector('.nav-groups').scrollTop = target.offsetTop;
+    }
+  });
+</script>
+
+<style lang="scss">
+  nav {
+    width: 100%;
+    margin-right: 1rem;
+  }
+
+  .nav-groups {
+    height: 100%;
+    overflow-x: visible;
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+
+  .nav-groups > li + li {
+    margin-top: 2rem;
+  }
+
+  .nav-groups > :first-child {
+    padding-top: var(--doc-padding);
+  }
+
+  .nav-groups > :last-child {
+    padding-bottom: 2rem;
+    margin-bottom: var(--header-height);
+  }
+
+  .nav-group-title {
+    font-size: 1.25rem;
+    padding: 0.125rem 1rem;
+    margin-bottom: 0.5rem;
+    &:not(:first-child) {
+      margin-top: 2.5rem;
+    }
+  }
+
+  .nav-link a {
+    font-size: 1rem;
+    margin: 1px;
+    padding: 0.3125rem 1rem;
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    border-radius: 2px;
+  }
+
+  .nav-link a:hover,
+  .nav-link a:focus {
+    background-color: var(--theme-bg-hover);
+  }
+
+  .nav-link a[aria-current] {
+    color: var(--theme-text-accent);
+    background-color: var(--theme-bg-accent);
+    font-weight: 600;
+  }
+
+  @media (max-width: 52em) {
+    .nav-groups {
+      padding: 2rem 0;
+    }
+    .nav-link a {
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 0;
+    }
+  }
+</style>
+
+<style is:global>
+  :root.theme-dark .nav-link a[aria-current] {
+    color: hsla(var(--color-base-white), 100%, 1);
+  }
+</style>

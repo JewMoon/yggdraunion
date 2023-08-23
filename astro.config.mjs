@@ -4,5 +4,16 @@ import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [mdx()]
+  base: '/yggdraunion',
+  build: {
+    format: 'file',
+  },
+  integrations: [
+    mdx()
+  ],
+  vite: {
+    build: {
+      assetsInlineLimit: '0',
+    },
+  }
 });

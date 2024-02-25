@@ -13,6 +13,8 @@ const { frontmatter: { title }, headings } = Astro.props;
 <BaseLayout title={title}>
   <div id="grid-main">
     <article id="article" class="content">
+      <section class="search-section">
+      </section>
       <section class="main-section">
         <h1 class="content-title" id="overview">{title}</h1>
         <slot />
@@ -42,7 +44,11 @@ const { frontmatter: { title }, headings } = Astro.props;
     margin-bottom: 6rem;
   }
 
-  .main-section {
+  .search-section {
+    display: none;
+  }
+
+  .main-section, .search-section {
     p + ul {
       margin-top: .5rem;
     }

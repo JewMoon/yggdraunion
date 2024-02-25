@@ -19,7 +19,11 @@ function anchorProps(path: string) {
 <nav>
   <ul class="nav-groups">
     <li>
+      <div id="search-input">
+        <input id="search" type="text" placeholder="Search...">
+      </div>
       <div class="nav-group">
+        <h2 class="nav-group-title"></h2>
         <ul>
           <li class="nav-link">
             <a {...anchorProps('./')}>首页</a>
@@ -65,6 +69,48 @@ function anchorProps(path: string) {
       document.querySelector('.nav-groups').scrollTop = target.offsetTop;
     }
   });
+
+  document.querySelector('#search')?.addEventListener('input', async (e) => {
+    // only load the pagefind script once
+    if (e.target.dataset.loaded !== 'true') {
+      e.target.dataset.loaded = 'true'
+      // load the pagefind script
+      window.pagefind = await import("./pagefind/pagefind.js");
+      await pagefind.options({
+        "excerptLength": 100
+      });
+    }
+
+    if (e.target.value != '') {
+      // search the index using the input value
+      const search = await window.pagefind.search(e.target.value)
+
+      // clear the old results
+      document.querySelector('.search-section').innerHTML = ''
+      document.querySelector('#grid-right').innerHTML = ''
+
+      // add the new results
+      for (const result of search.results) {
+        const data = await result.data()
+        // console.log(data)
+        document.querySelector('.search-section').innerHTML += `
+          <div id="search-result">
+            <a href="${data.url}">
+              <h3>${data.meta.title}</h3>
+            </a>
+            <p>${data.excerpt}</p>
+          </div>`
+      }
+
+      document.querySelector('.search-section').style.display = 'block'
+      document.querySelector('.main-section').style.display = 'none'
+    } else {
+      document.querySelector('.search-section').style.display = 'none'
+      document.querySelector('.main-section').style.display = 'block'
+    }
+
+
+  })
 </script>
 
 <style lang="scss">
@@ -122,6 +168,44 @@ function anchorProps(path: string) {
     color: var(--theme-text-accent);
     background-color: var(--theme-bg-accent);
     font-weight: 600;
+  }
+
+  #search-input {
+    padding: 6px;
+    background: 0 0;
+    transition: top .5s ease;
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.07);
+    border-top: 1px solid rgba(0,0,0,.07);
+    margin-bottom: 10px;
+    margin-top: -1px;
+  }
+
+  #search-input input, #search-input input:focus, #search-input input:hover {
+    width: 100%;
+    background: 0 0;
+    border: 1px solid transparent;
+    box-shadow: none;
+    outline: 0;
+    line-height: 22px;
+    padding: 7px 7px;
+    color: inherit;
+  }
+
+  #search-result {
+
+  }
+
+  #search-result a {
+
+  }
+
+  #search-result a h3 {
+
+  }
+
+  #search-result a p {
+
   }
 
   @media (max-width: 52em) {

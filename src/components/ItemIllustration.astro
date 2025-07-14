@@ -6,7 +6,8 @@ let no = 0;
 <table>
     <tbody>
         <tr>
-            <th>No.</th>
+            <th>No</th>
+            <th>Id</th>
             <th>道具名</th>
             <th>耐久</th>
             <th>属性</th>
@@ -22,10 +23,11 @@ let no = 0;
                     <td>{no}</td>
                     <td>{row[0]}</td>
                     <td>{row[1]}</td>
-                    <td set:html={row[2]}></td>
-                    <td>{row[3]}</td>
+                    <td>{row[2]}</td>
+                    <td set:html={row[3]}></td>
                     <td>{row[4]}</td>
                     <td>{row[5]}</td>
+                    <td>{row[6]}</td>
                 </tr>
             )
         }).flat()}

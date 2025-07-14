@@ -25,3 +25,4 @@ tools/
 
 # editor
 .vscode/
+.idea/

@@ -1,6 +1,6 @@
 # 圣剑同盟 资料站
 
-[https://markorca.github.io/yggdraunion/](https://markorca.github.io/yggdraunion/)
+[https://jewmoon.github.io/yggdraunion/](https://jewmoon.github.io/yggdraunion/)
 
 
 
